@@ -18,14 +18,15 @@ namespace BankAccount
         }
         public string Owner { get; set; }
 
-        public string Balance { get; private set; }
+        public double Balance { get; private set; }
         /// <summary>
         /// Add a specified amount of money to the account
         /// </summary>
         /// <param name="amt"></param>
-        public void Deposit(double amt)
+        public double Deposit(double amt)
         {
-            throw new NotImplementedException();
+            Balance += amt;
+            return Balance;
         }
         /// <summary>
         /// Withdraws an amount of money from the balance 
