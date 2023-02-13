@@ -11,23 +11,57 @@ namespace BankAccount.Tests
     [TestClass()]
     public class AccountTests
     {
-        [TestMethod()]
-        public void Deposit_APositiveAmount_AddToBalance()
-        {
-            Account acc = new Account("J doe");
-            acc.Deposit(100);
+        private Account acc;
 
-            Assert.AreEqual(100, acc.Balance);
+        public AccountTests() 
+        {
+            acc = new Account("J doe");
+        }   
+
+        [TestMethod()]
+        [DataRow(100)]
+        [DataRow(.01)]
+        [DataRow(1.99)]
+        [DataRow(9_999.99)]
+        public void Deposit_APositiveAmount_AddToBalance(double depositAmount)
+        {
+            acc.Deposit(depositAmount);
+
+            Assert.AreEqual(depositAmount, acc.Balance);
         }
 
         [TestMethod]
         public void Deposit_APositiveAmount_ReturnsUpdatedBalance()
         {
-            Account acc = new Account("J doe");
             double depositAmount = 100;
             double expeectedReturn = 100;
             double returnValue = acc.Deposit(depositAmount);
             Assert.AreEqual(expeectedReturn, returnValue);
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(0)]
+        public void Deposit_ZeroOrLess_ThrowsArgumentException(double invalidDepositAmount)
+        {
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>
+                (() => acc.Deposit(invalidDepositAmount));
+        }
+
+        [TestMethod]
+        public void Withdraw_PositiveAmount_DecreasesBalance()
+        {
+            double initialDeposit = 100;
+            double withdrawalAmount = 50;
+            double expectedBalance = initialDeposit - withdrawalAmount;
+
+            acc.Deposit(initialDeposit);
+            acc.Withdraw(withdrawalAmount);
+
+            double actualBalance = acc.Balance;
+
+            Assert.AreEqual(expectedBalance, actualBalance);
         }
     }
 }

@@ -25,6 +25,10 @@ namespace BankAccount
         /// <param name="amt"></param>
         public double Deposit(double amt)
         {
+            if (amt <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"The {nameof(amt)}Amt must be more than 0");
+            }
             Balance += amt;
             return Balance;
         }
@@ -32,8 +36,10 @@ namespace BankAccount
         /// Withdraws an amount of money from the balance 
         /// </summary>
         /// <param name="amt">The positive amount of money to be taken from the balance </param>
-        public void Withdraw(double amt)
-        { throw new NotImplementedException(); 
+        public double Withdraw(double amt)
+        { 
+            Balance -= amt;
+            return Balance;
         
         }
     }
